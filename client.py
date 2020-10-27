@@ -16,7 +16,7 @@ parser_default.add_argument("-D", "--device", dest="device_index", help="Index o
 parser_default.add_argument("--server-protocol", dest="server_protocol", choices=["udp", "tcp"], default="udp", help="Protocol used by the server (Default: udp)")
 
 parser_create_keymap = subparsers.add_parser("create_keymap", help="Create a keymap file by pressing some buttons on your gamepad.")
-parser_create_keymap.add_argument("-K", "--keymap", dest="keymap", required=True, help="Path to the keymap file. Can be created by using the create_keymap subcommand (Default: keymap.json)", default="keymap.json")
+parser_create_keymap.add_argument("-K", "--keymap", dest="keymap", help="Path to the keymap file to be created. (Default: keymap.json)", default="keymap.json")
 parser_create_keymap.add_argument("-D", "--device", dest="device_index", help="Index of the device in the list returned by list_devices (Default: 0).", type=int, default=0)
 
 parser_list_devices = subparsers.add_parser("list_devices", help="Get a list of detected devices and their indices.")
@@ -42,9 +42,7 @@ elif args.subcommand == "create_keymap":
         print("Gamepad with index {index} could not be found".format(index=args.device_index))
         sys.exit(1)
 
-    device = inputs.devices.gamepads[args.device_index]
-
-    create_keymap(device, args.keymap)
+    create_keymap(args.device_index, args.keymap)
 
 elif args.subcommand is None:
     interactive_config()
